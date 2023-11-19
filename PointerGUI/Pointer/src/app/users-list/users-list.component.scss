@@ -1,0 +1,22 @@
+.custom-btn {
+  position: relative;
+  span {
+    display: inline-block;
+  }
+
+  .userCircle {
+    padding: 0.2rem 1rem;
+    background: #90b44a;
+    border-radius: 10px;
+    width: 4rem;
+    position: absolute;
+    left: 1rem;
+  }
+  .username {
+    padding: 0.2rem 1rem;
+  }
+}
+h1{
+  color: white;
+  text-align: center;
+}

@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <div class="numpadHolder">
+        <div class="row mt-2">
+            <input type="password" placeholder="----" class="form-control mb-2 col-12" [(ngModel)]="enteredCode" readonly>
+        </div>
+        <div class="row">
+            <div *ngFor="let digit of digits" class="col-4">
+                <button class="btn btn-outline-dark numpad-btn" (click)="onDigitClick(digit)">{{ digit
+                    }}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <button class="btn btn-outline-dark numpad-btn" (click)="onActionClick('resetAll')"><i
+                        class="fa-solid fa-trash-can"></i></button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-outline-dark numpad-btn" (click)="onDigitClick(0)">0</button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-outline-dark numpad-btn" (click)="onActionClick('resetOne')"><i
+                        class="fa-solid fa-delete-left"></i></button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <button class="btn btn-outline-dark m-2 custom-btn col-12" (click)="sendMsg()">Valider</button>
+        </div>
+    </div>
+</div>

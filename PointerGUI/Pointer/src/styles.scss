@@ -1,0 +1,163 @@
+html,
+body {
+    background-color: #303030;
+}
+
+.custom-btn {
+    width: 60%;
+    font-size: 1.5rem;
+    padding: 1.1rem;
+    border-radius: 16px;
+    font-weight: 600;
+    background-color: #aee244;
+
+    i {
+        margin: 0.5rem 1rem;
+    }
+}
+
+
+#loading-container {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    z-index: 999;
+    position: fixed;
+    background-color: #222222cc;
+    top: 0;
+    left: 0;
+
+    .loading-center {
+        position: fixed;
+        height: 250px;
+        width: 250px;
+        top: calc(calc(100vh - 250px) / 2);
+        left: calc(calc(100vw - 250px) / 2);
+
+        h1::after {
+            content: '...';
+            animation-name: points-animation;
+            animation-duration: 1.2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.3rem;
+            margin-left: 55px;
+            font-weight: 600;
+        }
+
+        .loading-bar {
+            height: 15px;
+            background-color: #464646;
+            border-radius: 10px;
+            overflow: hidden;
+
+            .loading-obj {
+                height: 15px;
+                background-color: greenyellow;
+                width: 55px;
+                animation-name: move-leftright;
+                animation-duration: 1.2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+                border-radius: 10px;
+            }
+        }
+    }
+}
+
+
+#notification-container .notification {
+    display: block;
+    position: absolute;
+    width: 230px;
+    z-index: 99;
+    top: -150px;
+    right: 20px;
+    opacity: 0.95;
+    border-radius: 15px;
+    animation-name: slideinTop;
+    animation-duration: 0.85s;
+    animation-fill-mode: forwards;
+    padding: 10px 20px;
+}
+
+#notification-container {
+    z-index: 99;
+    .notification.error {
+        background: #ff7466;
+    }
+
+    .notification.success {
+        background: #66ff80;
+    }
+
+    .notification.warning {
+        background: #ffec66;
+    }
+
+    .notification {
+        p.body {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        h3.title {
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            padding: 0;
+            font-size: 1rem;
+        }
+    }
+}
+
+
+
+@keyframes slideinTop {
+    from {
+        top: -150px;
+    }
+
+    to {
+        top: 20px;
+    }
+}
+
+
+@keyframes move-leftright {
+    0% {
+        margin-left: -45px;
+    }
+
+    100% {
+        margin-left: 250px;
+    }
+}
+
+@keyframes points-animation {
+    0% {
+        content: '';
+    }
+
+    30% {
+        content: '.';
+    }
+
+    60% {
+        content: '..';
+    }
+
+    100% {
+        content: '...';
+    }
+}

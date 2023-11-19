@@ -1,0 +1,31 @@
+<button
+  *ngIf="userStep && userStep != 4"
+  class="btn btn-outline-dark custom-btn goBack-btn"
+  (click)="goBackToPrevStep()"
+>
+  <i class="fa fa-arrow-left" aria-hidden="true"></i>
+</button>
+<app-restaurants-list
+  [restaurants]="restaurants"
+  *ngIf="userStep == 0"
+  (onEvent)="onRestaurantEvent($event)"
+></app-restaurants-list>
+<app-actions-list
+  *ngIf="userStep == 1"
+  (onEvent)="onActionEvent($event)"
+></app-actions-list>
+<app-users-list
+  [users]="users"
+  [action]="selectedAction.checkkingIn ? 'Pointage' : 'Depointage'"
+  *ngIf="userStep == 2"
+  (onEvent)="onUserSelectionEvent($event)"
+></app-users-list>
+<app-code-key-input
+  *ngIf="userStep == 3"
+  (onEvent)="onCodeSelectionEvent($event)"
+></app-code-key-input>
+<app-report-point
+  [data]="reportData"
+  *ngIf="userStep == 4"
+  (onEvent)="onReportEvent()"
+></app-report-point>

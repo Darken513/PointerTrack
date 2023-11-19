@@ -1,0 +1,47 @@
+<div class="container mt-4">
+    <h1 class="mb-4">Liste des utilisateurs</h1>
+    <div class="row">
+        <div *ngFor="let user of users" class="col-lg-4 col-md-6 col-12 mb-2">
+            <button class="btn btn-outline-dark custom-btn w-100 existingUser">
+                <span class="userCircle">{{user.name[0]}}</span>
+                <span class="username">{{ user.name }}</span>
+            </button>
+        </div>
+        <div class="col-lg-4 col-md-6 col-12 mb-2">
+            <button class="btn btn-outline-dark custom-btn w-100 addNew" (click)="addUser()">
+                <span class="username">Ajouter un utilisateur</span>
+            </button>
+        </div>
+    </div>
+    <h1 class="mb-4 mt-4">Liste des restaurant</h1>
+    <div class="row">
+        <div *ngFor="let restaurant of restaurants" class="col-lg-4 col-md-6 col-12 mb-2">
+            <button class="btn btn-outline-dark custom-btn w-100 existingUser">
+                <span class="userCircle">{{restaurant.name[0]}}</span>
+                <span class="username">{{ restaurant.name }}</span>
+            </button>
+        </div>
+        <div class="col-lg-4 col-md-6 col-12 mb-2">
+            <button class="btn btn-outline-dark custom-btn w-100 addNew" (click)="addRestaurant()">
+                <span class="username">Ajouter un restaurant</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="onTop" *ngIf="modalOn">
+    <div class="innerBody">
+        <div *ngIf="addingUser">
+            <button class="closeBtn" (click)="closeModal()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            <h3 class="mb-4">Ajouter un utilisateur</h3>
+            <input type="text" placeholder="Nom d'utilisateur" class="form-control mb-2 col-12" [(ngModel)]="newUser.username">
+            <input type="number" placeholder="Code (should contain 3 to 4 digits)" class="form-control mb-2 col-12" [(ngModel)]="newUser.code">
+            <button class="btn btn-primary w-100" (click)="submitUserCreation()">Ajouter</button>
+        </div>
+        <div *ngIf="addingRestaurant">
+            <button class="closeBtn" (click)="closeModal()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            <h3 class="mb-4">Ajouter un restaurant</h3>
+            <input type="text" placeholder="Nom du restaurant" class="form-control mb-2 col-12" [(ngModel)]="newRestaurant.name">
+            <button class="btn btn-primary w-100" (click)="submitRestaurantCreation()">Ajouter</button>
+        </div>
+    </div>
+</div>
