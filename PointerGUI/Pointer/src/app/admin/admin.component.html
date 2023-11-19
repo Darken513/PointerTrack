@@ -1,4 +1,9 @@
-<div class="container mt-4">
+
+<button class="btn btn-outline-dark custom-btn goBack-btn" [routerLink]="['/home']">
+    <i class="fa-solid fa-user"></i>
+</button>
+<app-code-key-input *ngIf="!isAdmin" (onEvent)="checkAdminCode($event)"></app-code-key-input>
+<div class="container mt-4" *ngIf="isAdmin">
     <h1 class="mb-4">Liste des utilisateurs</h1>
     <div class="row">
         <div *ngFor="let user of users" class="col-lg-4 col-md-6 col-12 mb-2">

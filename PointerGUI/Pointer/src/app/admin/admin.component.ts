@@ -8,6 +8,7 @@ import { HttpServiceCustom } from '../users.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
+  public isAdmin:boolean = false;
   public restaurants: any[] = [];
   public users: any[] = [];
   public newUser:any = {username:'', code:''};
@@ -73,5 +74,10 @@ export class AdminComponent {
         this.ngOnInit();
       }
     })
+  }
+  public checkAdminCode(event:any){
+    if(event=="3087"){
+      this.isAdmin = true;
+    }
   }
 }

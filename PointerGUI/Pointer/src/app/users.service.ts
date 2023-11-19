@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpServiceCustom {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'https://pointer-tracker.onrender.com/api';
 
   constructor(
     private http: HttpClient

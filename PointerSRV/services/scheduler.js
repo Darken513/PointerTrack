@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const cron = require('node-cron');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const user_pointDB = require('../models/user_point.model')
+const fs = require('fs');
 
 // Define the CSV writer
 const csvWriter = createCsvWriter({
@@ -24,8 +25,14 @@ const transporter = nodemailer.createTransport({
     pass: 'oxvaptmwbhtroycf'
   }
 });
-function sendMail(data){
-  const reportName = "Rapport Journalier Pointage/Depointage";
+function sendMail(frequency){
+  let reportName = "";
+  if(frequency.daily){
+    reportName = "Rapport Journalier Pointage/Depointage"
+  }
+  else if (frequency.monthly){
+    reportName = "Rapport Mensuel Pointage/Depointage"
+  }
   const today = new Date();
   const day = today.getDate();
   const month = today.getMonth() + 1; // Months are zero-based, so add 1
@@ -54,13 +61,31 @@ function sendMail(data){
 };
 
 exports.start = async () => {
-  cron.schedule('*/2 * * * *', async () => {
-  //cron.schedule('0 20 1 * *', async () => {
+  cron.schedule('0 20 * * *', async () => {
     const data = await user_pointDB.getAllForToday();
+    fs.writeFileSync('output.csv', '');
     // Write the data to the CSV file
     csvWriter.writeRecords(data)
       .then(() => {
-        sendMail()
+        sendMail({daily:true})
+      })
+      .catch(error => console.error('Error writing CSV file:', error));
+  }, {
+    scheduled: true,
+    timezone: 'Europe/Paris'
+  });
+  cron.schedule('0 0 1 * *', async () => {
+    const today = new Date();
+    const previousMonth = new Date(today);
+    previousMonth.setMonth(today.getMonth() - 1);
+    const previousMonthNumber = previousMonth.getMonth() + 1; // Months are zero-based, so add 1
+    const previousYear = previousMonth.getFullYear();
+    const data = await user_pointDB.getAllForMonthYear(previousMonthNumber, previousYear);
+    fs.writeFileSync('output.csv', '');
+    // Write the data to the CSV file
+    csvWriter.writeRecords(data)
+      .then(() => {
+        sendMail({monthly:true})
       })
       .catch(error => console.error('Error writing CSV file:', error));
   }, {
