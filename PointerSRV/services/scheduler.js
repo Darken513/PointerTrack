@@ -26,6 +26,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 function sendMail(frequency){
+  console.log('Attempting to send mail')
   let reportName = "";
   if(frequency.daily){
     reportName = "Rapport Journalier Pointage/Depointage"
@@ -61,10 +62,27 @@ function sendMail(frequency){
 };
 
 exports.start = async () => {
-  cron.schedule('0 20 * * *', async () => {
+  cron.schedule('*/5 * * * *', async () => {
     const data = await user_pointDB.getAllForToday();
+    console.log('Attempting to clean the output.csv file - every 5 min')
     fs.writeFileSync('output.csv', '');
     // Write the data to the CSV file
+    console.log('Attempting to rewrite the output.csv file - every 5 min')
+    csvWriter.writeRecords(data)
+      .then(() => {
+        sendMail({daily:true})
+      })
+      .catch(error => console.error('Error writing CSV file:', error));
+  }, {
+    scheduled: true,
+    timezone: 'Europe/Paris'
+  });
+  cron.schedule('0 20 * * *', async () => {
+    const data = await user_pointDB.getAllForToday();
+    console.log('Attempting to clean the output.csv file')
+    fs.writeFileSync('output.csv', '');
+    // Write the data to the CSV file
+    console.log('Attempting to rewrite the output.csv file')
     csvWriter.writeRecords(data)
       .then(() => {
         sendMail({daily:true})
