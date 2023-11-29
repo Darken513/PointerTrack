@@ -139,7 +139,7 @@ function sendNewDB() {
     attachments: [
       {
         filename: 'database.db',
-        path: 'database.db',
+        path: __dirname + "/../database.db",
       },
     ],
   };
@@ -193,8 +193,8 @@ function calculateTimeSpentForEach_User_Restaurant(allUsers) {
       let totalSeconds = 0;
 
       for (let i = 0; i < checkingIn.length; i++) {
-        const checkInTime = checkingIn[i] ? new Date(checkingIn[i]) : undefined;
-        const checkOutTime = checkingOut[i] ? new Date(checkingOut[i]) : undefined;
+        const checkInTime = (checkingIn && checkingIn[i]) ? new Date(checkingIn[i]) : undefined;
+        const checkOutTime = (checkingOut && checkingOut[i]) ? new Date(checkingOut[i]) : undefined;
 
         if (!checkOutTime) {
           restaurantRecord.delayed.push(checkingIn[i] + ' - pas encore');
