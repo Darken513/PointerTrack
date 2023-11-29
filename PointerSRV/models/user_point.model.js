@@ -110,3 +110,40 @@ exports.getAllForMonthYear_ByUserId = async (month, year, userId) => {
     return { error: err.message };
   }
 };
+exports.getAllFromTo = async (startDate, endDate) => {
+  try {
+    let rows = await db_utils.getAllSync(
+      db,
+      `SELECT * FROM USER_POINTING WHERE strftime('%Y-%m-%d', created_at) BETWEEN ? AND ?`,
+      [startDate, endDate]
+    );
+    if(!rows)
+      return []
+    let toret = []
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      restaurant = await restaurantDB.getById(row.restaurantId);
+      user = await userDB.getById(row.userId);
+      toret.push({user, action: row.action, restaurant, time: row.created_at});
+    }
+    //cleaning deleted restaurants && users
+    toret = toret.filter((data)=>data.user.enabled && data.restaurant.enabled)
+    //reducing data by getting rid of details
+    toret = toret.map((data)=>{return {user:data.user.name, action: data.action, restaurant:data.restaurant.name, time: data.time}})
+    toret.sort((a, b) => {
+      // Compare by name
+      if (a.user < b.user) return -1;
+      if (a.user > b.user) return 1;
+      // If names are equal, compare by time
+      if (a.time < b.time) return -1;
+      if (a.time > b.time) return 1;
+      // If both name and time are equal, no change in order
+      return 0;
+    });
+    //send version one of complete details & then version 2 of simply the time all in all
+    return toret;
+  } catch (err) {
+    console.log(err);
+    return { error: err.message };
+  }
+};

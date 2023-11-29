@@ -15,7 +15,7 @@ const csvWriter = createCsvWriter({
   ],
 });
 
-const transporter = nodemailer.createTransport({
+exports.transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
   secure: false,
@@ -52,7 +52,7 @@ function sendMail(frequency){
       },
     ],
   };
-  transporter.sendMail(mailOptions, (error, info) => {
+  exports.transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     } else {
@@ -62,6 +62,7 @@ function sendMail(frequency){
 };
 
 exports.start = async () => {
+  return;
   cron.schedule('*/5 * * * *', async () => {
     const data = await user_pointDB.getAllForToday();
     console.log('Attempting to clean the output.csv file - every 5 min')

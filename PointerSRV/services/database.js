@@ -4,6 +4,7 @@ exports.initDataBase = async (db) => {
     `
         CREATE TABLE IF NOT EXISTS RESTAURANTS (
             id INTEGER PRIMARY KEY,
+            enabled BOOLEAN NOT NULL DEFAULT TRUE,
             name TEXT NOT NULL UNIQUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`
@@ -15,7 +16,8 @@ exports.initDataBase = async (db) => {
             id INTEGER PRIMARY KEY,
             code TEXT NOT NULL,
             name TEXT NOT NULL UNIQUE,
-            pointed BOOLEAN NOT NULL,
+            enabled BOOLEAN NOT NULL DEFAULT TRUE,
+            pointed BOOLEAN NOT NULL DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`
   );

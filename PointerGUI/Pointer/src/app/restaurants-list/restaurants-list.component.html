@@ -1,7 +1,7 @@
 <div class="container mt-4">
     <div class="d-flex flex-column align-items-center">
         <button *ngFor="let restaurant of restaurants" class="btn btn-outline-dark m-2 custom-btn" (click)="sendMsg(restaurant)">
-            <i class="fas fa-utensils"></i>{{ restaurant.name }}
+            {{ restaurant.name }}
         </button>
     </div>
 </div>

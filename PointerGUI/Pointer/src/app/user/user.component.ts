@@ -77,6 +77,9 @@ export class UserComponent {
           currentTime: new Date(),
         };
         this.userStep += 1;
+        setTimeout(() => {
+          this.onReportEvent()
+        }, 5000);
       },
       error: (error)=>{
         console.log(error);

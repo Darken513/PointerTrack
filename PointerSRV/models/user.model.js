@@ -20,6 +20,23 @@ exports.createNew = async ({ code, name }) => {
     };
   }
 };
+exports.deleteUserById = async ({ userId }) => {
+  try {
+    await db_utils.runSync(
+      db,
+      `UPDATE USERS SET enabled = FALSE WHERE id = ?`,
+      [userId]
+    );
+    return true;
+  } catch (err) {
+    console.log(err);
+    return {
+      error: err.message.includes("SQLITE_CONSTRAINT")
+        ? "User doesnt exist or already deleted"
+        : "An error has occurred",
+    };
+  }
+};
 exports.getById = async (id) => {
   const query = `SELECT * FROM USERS WHERE id = ?`;
   try {
@@ -32,7 +49,7 @@ exports.getById = async (id) => {
 };
 exports.getAll = async () => {
   try {
-    let rows = await db_utils.getAllSync(db, `SELECT * FROM USERS`);
+    let rows = await db_utils.getAllSync(db, `SELECT * FROM USERS WHERE enabled=TRUE`);
     return rows ? rows : [];
   } catch (err) {
     console.log(err);
@@ -43,7 +60,7 @@ exports.getAllByPointed = async (pointed) => {
   try {
     let rows = await db_utils.getAllSync(
       db,
-      `SELECT * FROM USERS WHERE pointed = ?`,
+      `SELECT * FROM USERS WHERE pointed = ? AND enabled=TRUE`,
       [pointed]
     );
     return rows ? rows : [];

@@ -1,8 +1,12 @@
+.m-4{    
+  margin-top: 50px !important;
+  margin-bottom: 25px !important;
+}
 .custom-btn {
   position: relative;
   pointer-events: none;
-
   width: 60%;
+  transition: 0.5s;
   font-size: 1.2rem;
   padding: 1.1rem;
   border-radius: 16px;
@@ -17,7 +21,8 @@
     padding: 0.2rem 1rem;
     background: #c7c79a;
     border-radius: 10px;
-    width: 4rem;
+    transition: 0.5s;
+    width: 3.1rem;
     position: absolute;
     left: 1rem;
   }
@@ -41,7 +46,7 @@ h1 {
   background-color: rgb(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   .innerBody {
@@ -73,4 +78,55 @@ h1 {
   height: 50px;
   padding: 0;
   margin: 10px;
+}
+
+.fa-times-wrapper{
+  position: absolute;
+  right: 5px;
+  font-size: 1.5rem;
+  top: 15px;
+  color: #b74444;
+  pointer-events: auto;
+}
+.content-wrapper-admin{
+  min-width: 350px;
+}
+.custom-btn.existingUser:hover{
+  color: red;
+  .userCircle{
+    color: white;
+    background-color: red;
+  }
+}
+.w-50{
+  width: calc(50% - 5px) !important;
+  margin: 2.5px;
+}
+.custom-btn.handleReportBtn{
+  display: block;
+  width: 50%;
+  margin: auto;
+  margin-top: 15px;
+}
+.custom-btn.handleReportBtn:last-of-type{
+  margin-top: 5px;
+  background-color: #59d5e4;
+}
+input.date-input{
+  height: 60px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  background-color: #ecffc4;
+}
+input.date-input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #f3ffd9 !important;
+}
+.date-label{
+  font-size: 1.2rem;
+  color: #f3ffd9 !important;
+}
+.highlight-name{
+  color: red;
+  font-weight: 600;
 }

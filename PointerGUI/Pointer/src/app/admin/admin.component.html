@@ -1,16 +1,35 @@
-
 <button class="btn btn-outline-dark custom-btn goBack-btn" [routerLink]="['/home']">
     <i class="fa-solid fa-user"></i>
 </button>
 <app-code-key-input *ngIf="!isAdmin" (onEvent)="checkAdminCode($event)"></app-code-key-input>
-<div class="container mt-4" *ngIf="isAdmin">
-    <h1 class="mb-4">Liste des utilisateurs</h1>
+<div class="container mt-2 pb-4" *ngIf="isAdmin">
+    <div class="container">
+        <h1 class="mb-4">Générer un rapport</h1>
+        <div class="row">
+            <div class="form-group col-md-6 col-12">
+                <label class="text-light date-label">Start Date:</label>
+                <input type="date" class="form-control date-input" [(ngModel)]="startDate" name="startDate" />
+            </div>
+            <div class="form-group col-md-6 col-12">
+                <label class="text-light date-label">End Date:</label>
+                <input type="date" [min]="startDate" class="form-control date-input" [(ngModel)]="endDate" name="endDate" />
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-outline-dark custom-btn handleReportBtn addNew w-50"
+                (click)="handleReportSubmit(false)">Générer & envoyer un e-mail</button>
+            <!-- <button class="btn btn-outline-dark custom-btn handleReportBtn addNew w-50"
+                (click)="handleReportSubmit(true)">Générer & télécharger le csv</button> -->
+        </div>
+    </div>
+    <h1 class="m-4">Gérer les utilisateurs</h1>
     <div class="row">
         <div *ngFor="let user of users" class="col-lg-4 col-md-6 col-12 mb-2">
-            <button class="btn btn-outline-dark custom-btn w-100 existingUser">
+            <div class="btn btn-outline-dark custom-btn w-100 existingUser">
                 <span class="userCircle">{{user.name[0]}}</span>
                 <span class="username">{{ user.name }}</span>
-            </button>
+                <span class="fa-times-wrapper" (click)="deleteUser(user)"><i class="fa fa-solid fa-times"></i></span>
+            </div>
         </div>
         <div class="col-lg-4 col-md-6 col-12 mb-2">
             <button class="btn btn-outline-dark custom-btn w-100 addNew" (click)="addUser()">
@@ -18,13 +37,15 @@
             </button>
         </div>
     </div>
-    <h1 class="mb-4 mt-4">Liste des restaurant</h1>
+    <h1 class="m-4">Gérer les restaurant</h1>
     <div class="row">
         <div *ngFor="let restaurant of restaurants" class="col-lg-4 col-md-6 col-12 mb-2">
-            <button class="btn btn-outline-dark custom-btn w-100 existingUser">
+            <div class="btn btn-outline-dark custom-btn w-100 existingUser">
                 <span class="userCircle">{{restaurant.name[0]}}</span>
                 <span class="username">{{ restaurant.name }}</span>
-            </button>
+                <span class="fa-times-wrapper" (click)="deleteRestaurant(restaurant)"><i
+                        class="fa fa-solid fa-times"></i></span>
+            </div>
         </div>
         <div class="col-lg-4 col-md-6 col-12 mb-2">
             <button class="btn btn-outline-dark custom-btn w-100 addNew" (click)="addRestaurant()">
@@ -38,15 +59,29 @@
         <div *ngIf="addingUser">
             <button class="closeBtn" (click)="closeModal()"><i class="fa fa-times" aria-hidden="true"></i></button>
             <h3 class="mb-4">Ajouter un utilisateur</h3>
-            <input type="text" placeholder="Nom d'utilisateur" class="form-control mb-2 col-12" [(ngModel)]="newUser.username">
-            <input type="number" placeholder="Code (should contain 3 to 4 digits)" class="form-control mb-2 col-12" [(ngModel)]="newUser.code">
+            <input type="text" placeholder="Nom d'utilisateur" class="form-control mb-2 col-12"
+                [(ngModel)]="newUser.username">
+            <input type="number" placeholder="Code (should contain 3 to 4 digits)" class="form-control mb-2 col-12"
+                [(ngModel)]="newUser.code">
             <button class="btn btn-primary w-100" (click)="submitUserCreation()">Ajouter</button>
         </div>
         <div *ngIf="addingRestaurant">
             <button class="closeBtn" (click)="closeModal()"><i class="fa fa-times" aria-hidden="true"></i></button>
             <h3 class="mb-4">Ajouter un restaurant</h3>
-            <input type="text" placeholder="Nom du restaurant" class="form-control mb-2 col-12" [(ngModel)]="newRestaurant.name">
+            <input type="text" placeholder="Nom du restaurant" class="form-control mb-2 col-12"
+                [(ngModel)]="newRestaurant.name">
             <button class="btn btn-primary w-100" (click)="submitRestaurantCreation()">Ajouter</button>
+        </div>
+        <div *ngIf="removingUser">
+            <h3 class="mb-4">Supprimer l'utilisateur <span class="highlight-name">'{{userToDelete.name}}'</span> ?</h3>
+            <button class="btn btn-primary w-50" (click)="submitDeleteUser()">Supprimer</button>
+            <button class="btn btn-danger w-50" (click)="cancelDeleteUser()">Annuler</button>
+        </div>
+        <div *ngIf="removingRestaurant">
+            <h3 class="mb-4">Supprimer le restaurant <span class="highlight-name">'{{restaurantToDelete.name}}'</span> ?
+            </h3>
+            <button class="btn btn-primary w-50" (click)="submitDeleteRestaurant()">Supprimer</button>
+            <button class="btn btn-danger w-50" (click)="cancelDeleteRestaurant()">Annuler</button>
         </div>
     </div>
 </div>

@@ -27,7 +27,7 @@ app.use((req, res) => {
 async function init() {
   await db_utils.initDataBase(db);
   //await db_utils.createData(db)
-  await scheduler.start()
+  //await scheduler.start()
 }
 
 init();

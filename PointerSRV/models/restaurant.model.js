@@ -17,6 +17,23 @@ exports.createNew = async ({ name }) => {
     };
   }
 };
+exports.deleteRestaurantById = async ({ restaurantId }) => {
+  try {
+    await db_utils.runSync(
+      db,
+      `UPDATE RESTAURANTS SET enabled = FALSE WHERE id = ?`,
+      [restaurantId]
+    );
+    return true;
+  } catch (err) {
+    console.log(err);
+    return {
+      error: err.message.includes("SQLITE_CONSTRAINT")
+        ? "User doesnt exist or already deleted"
+        : "An error has occurred",
+    };
+  }
+};
 exports.getById = async (id) => {
   const query = `SELECT * FROM RESTAURANTS WHERE id = ?`;
   try {
@@ -29,7 +46,7 @@ exports.getById = async (id) => {
 };
 exports.getAll = async () => {
   try {
-    let rows = await db_utils.getAllSync(db, `SELECT * FROM RESTAURANTS`);
+    let rows = await db_utils.getAllSync(db, `SELECT * FROM RESTAURANTS WHERE enabled=TRUE`);
     return rows ? rows : [];
   } catch (err) {
     console.log(err);
