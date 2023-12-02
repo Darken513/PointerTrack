@@ -531,9 +531,8 @@ function sendMail(fromToDetails) {
 
   const mailOptions = {
     from: "PointerTracker",
-    //to: 'ghassen.hentati@hotmail.com',
-    //cc: 'affesachraf70@gmail.com',
-    to: "affesachraf70@gmail.com",
+    to: 'ghassen.hentati@hotmail.com',
+    cc: 'affesachraf70@gmail.com',
     subject: reportName,
     text: "Please find the attached CSV file.",
     attachments: [
