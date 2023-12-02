@@ -14,20 +14,20 @@ export class UserComponent {
   public selectedUser: any;
   public selectedCode: any;
   public reportData: any;
-  public restaurants:any[] = [];
-  public users:any[] = [];
+  public restaurants: any[] = [];
+  public users: any[] = [];
   constructor(
     private notifService: NotificationService,
     private userService: HttpServiceCustom
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userService.getAllRestaurants().subscribe((res) => {
       this.restaurants = res.restaurants;
     });
   }
-  public goBackToPrevStep(){
-    if(this.userStep){
+  public goBackToPrevStep() {
+    if (this.userStep) {
       this.userStep -= 1;
     }
   }
@@ -39,12 +39,12 @@ export class UserComponent {
     this.selectedAction = event;
     let serviceAction = this.selectedAction.checkkingIn
       ? this.userService.getAllUnPointed()
-      : this.userService.getAllPointed();
+      : this.userService.getAllPointed(this.selectedRestaurant.id);
     serviceAction.subscribe(
       (res) => {
         this.users = res.users;
       },
-      (error) => {}
+      (error) => { }
     );
     this.userStep += 1;
   }
@@ -65,8 +65,8 @@ export class UserComponent {
       currentTime: new Date(),
     }
     this.userService.checkCodeAndSubmitAction(topost).subscribe({
-      next: (val)=>{
-        if(val.title == "error"){
+      next: (val) => {
+        if (val.title == "error") {
           this.notifService.showNotification(val.title, val.body);
           return;
         }
@@ -81,7 +81,7 @@ export class UserComponent {
           this.onReportEvent()
         }, 5000);
       },
-      error: (error)=>{
+      error: (error) => {
         console.log(error);
       }
     })

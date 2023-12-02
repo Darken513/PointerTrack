@@ -34,14 +34,7 @@ export class AdminComponent {
     this.userService.getAllRestaurants().subscribe((res) => {
       this.restaurants = res.restaurants;
     });
-    this.userService.getAllUnPointed().subscribe(
-      {
-        next: (res) => {
-          this.users.push(...res.users);
-        }
-      }
-    );
-    this.userService.getAllPointed().subscribe(
+    this.userService.getAllUsers().subscribe(
       {
         next: (res) => {
           this.users.push(...res.users);
@@ -49,8 +42,8 @@ export class AdminComponent {
       }
     );
   }
-  handleReportSubmit(toDownload:boolean): void {
-    if(!this.startDate.length || !this.endDate.length){
+  handleReportSubmit(toDownload: boolean): void {
+    if (!this.startDate.length || !this.endDate.length) {
       this.notifService.showNotification('error', 'Please select valid dates');
       return;
     }
@@ -59,7 +52,7 @@ export class AdminComponent {
       endDate: this.endDate,
       toDownload
     }
-    this.userService.getAllFromTo(details).subscribe((val)=>{
+    this.userService.getAllFromTo(details).subscribe((val) => {
       this.notifService.showNotification(val.title, val.body);
     })
   }

@@ -1,7 +1,7 @@
+const { transporter } = require('../services/scheduler');
 const restaurantDB = require("../models/restaurant.model");
 const userDB = require("../models/user.model");
 const user_pointDB = require("../models/user_point.model");
-const { transporter } = require('../services/scheduler');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const fs = require('fs');
 var path = require('path');
@@ -116,7 +116,7 @@ exports.getAllFromTo = async (req, res) => {
     csvWriter.writeRecords(final)
       .then(() => {
         if (toDownload) {
-          res.sendFile(path.resolve(__dirname+"/../output.csv"));
+          res.sendFile(path.resolve(__dirname + "/../output.csv"));
           return;
         }
         sendMail(req.body)

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpServiceCustom {
-  private apiUrl = /* 'http://localhost:8080/api';  */'https://pointer-tracker.onrender.com/api';
+  private apiUrl = 'http://localhost:8080/api'; //'https://pointer-tracker.onrender.com/api';
 
   constructor(
     private http: HttpClient
@@ -15,8 +15,11 @@ export class HttpServiceCustom {
   public getAllRestaurants(): Observable<any> {
     return this.http.get<{ response: any }>(`${this.apiUrl}/getAllRestaurants`);
   }
-  public getAllPointed(): Observable<any> {
-    return this.http.get<{ response: any }>(`${this.apiUrl}/getAllPointed`);
+  public getAllUsers(): Observable<any> {
+    return this.http.get<{ response: any }>(`${this.apiUrl}/getAllUsers`);
+  }
+  public getAllPointed(restaurantId: string): Observable<any> {
+    return this.http.get<{ response: any }>(`${this.apiUrl}/getAllPointed/${restaurantId}`);
   }
   public getAllUnPointed(): Observable<any> {
     return this.http.get<{ response: any }>(`${this.apiUrl}/getAllUnPointed`);
