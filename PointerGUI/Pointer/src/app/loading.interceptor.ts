@@ -21,9 +21,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             tap((event) => {
                 if (event instanceof HttpResponse) {
-                    setTimeout(() => {
-                        document.getElementById("loading-container")!.style!.display = "none";
-                    }, 350);
+                    document.getElementById("loading-container")!.style!.display = "none";
                 }
             })
         );

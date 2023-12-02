@@ -1,19 +1,56 @@
-.card{
-    max-width: 500px;
-    margin: auto;
-    margin-top: 2rem;
-    font-size: 1.5rem;
-    text-align: center;
-    .Pointage{
-        color: #80be03;
-    }
-    .Depointage{
-        color: #dc3545;
-    }
-    .time-holder{
-        font-size: 5rem;
-        background: gainsboro;
-        font-weight: 700;
-        border-radius: 8px;
-    }
+.card {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  .Pointage {
+    color: #80be03;
+  }
+  .Depointage {
+    color: #dc3545;
+  }
+  .time-holder {
+    font-size: 5rem;
+    background: gainsboro;
+    font-weight: 700;
+    border-radius: 8px;
+  }
+}
+.m-4 {
+  margin-top: 50px !important;
+  margin-bottom: 25px !important;
+}
+.custom-btn {
+  position: relative;
+  width: 60%;
+  transition: 0.5s;
+  font-size: 1.2rem;
+  padding: 1.1rem;
+  border-radius: 16px;
+  font-weight: 600;
+  background-color: #ecffc4;
+
+  span {
+    display: inline-block;
+  }
+
+  .userCircle {
+    padding: 0.2rem 1rem;
+    background: #c7c79a;
+    border-radius: 10px;
+    transition: 0.5s;
+    width: 3.1rem;
+    position: absolute;
+    left: 1rem;
+  }
+
+  .username {
+    padding: 0.2rem 1rem;
+  }
+}
+
+h3 {
+  color: white;
+  text-align: center;
 }

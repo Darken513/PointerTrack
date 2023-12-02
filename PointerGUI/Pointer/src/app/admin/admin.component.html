@@ -12,7 +12,8 @@
             </div>
             <div class="form-group col-md-6 col-12">
                 <label class="text-light date-label">End Date:</label>
-                <input type="date" [min]="startDate" class="form-control date-input" [(ngModel)]="endDate" name="endDate" />
+                <input type="date" [min]="startDate" class="form-control date-input" [(ngModel)]="endDate"
+                    name="endDate" />
             </div>
         </div>
         <div>
@@ -53,6 +54,22 @@
             </button>
         </div>
     </div>
+    <h1 class="m-4">Gérer les vehicles</h1>
+    <div class="row">
+        <div *ngFor="let vehicle of vehicles" class="col-lg-4 col-md-6 col-12 mb-2">
+            <div class="btn btn-outline-dark custom-btn w-100 existingUser">
+                <span class="userCircle">{{vehicle.name[0]}}</span>
+                <span class="username">{{ vehicle.name }}</span>
+                <span class="fa-times-wrapper" (click)="deleteVehicle(vehicle)"><i
+                        class="fa fa-solid fa-times"></i></span>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-12 mb-2">
+            <button class="btn btn-outline-dark custom-btn w-100 addNew" (click)="addVehicle()">
+                <span class="username">Ajouter un Vehicule</span>
+            </button>
+        </div>
+    </div>
 </div>
 <div class="onTop" *ngIf="modalOn">
     <div class="innerBody">
@@ -72,6 +89,13 @@
                 [(ngModel)]="newRestaurant.name">
             <button class="btn btn-primary w-100" (click)="submitRestaurantCreation()">Ajouter</button>
         </div>
+        <div *ngIf="addingVehicle">
+            <button class="closeBtn" (click)="closeModal()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            <h3 class="mb-4">Ajouter un vehicule</h3>
+            <input type="text" placeholder="Nom du vehicule" class="form-control mb-2 col-12"
+                [(ngModel)]="newVehicule.name">
+            <button class="btn btn-primary w-100" (click)="submitVehicleCreation()">Ajouter</button>
+        </div>
         <div *ngIf="removingUser">
             <h3 class="mb-4">Supprimer l'utilisateur <span class="highlight-name">'{{userToDelete.name}}'</span> ?</h3>
             <button class="btn btn-primary w-50" (click)="submitDeleteUser()">Supprimer</button>
@@ -82,6 +106,12 @@
             </h3>
             <button class="btn btn-primary w-50" (click)="submitDeleteRestaurant()">Supprimer</button>
             <button class="btn btn-danger w-50" (click)="cancelDeleteRestaurant()">Annuler</button>
+        </div>
+        <div *ngIf="removingVehicle">
+            <h3 class="mb-4">Supprimer le Vehicule <span class="highlight-name">'{{vehicleToDelete.name}}'</span> ?
+            </h3>
+            <button class="btn btn-primary w-50" (click)="submitDeleteVehicle()">Supprimer</button>
+            <button class="btn btn-danger w-50" (click)="cancelDeleteVehicle()">Annuler</button>
         </div>
     </div>
 </div>

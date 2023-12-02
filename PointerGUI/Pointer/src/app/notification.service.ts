@@ -13,7 +13,6 @@ export class NotificationService {
     notifDiv?.appendChild(notifTitle)
     notifDiv?.appendChild(notifBody)
     notifDiv?.appendChild(notifBtn)
-    console.log(notifContainer);
     
     setTimeout(() => {
       notifDiv.remove()

@@ -10,16 +10,22 @@ import { HttpServiceCustom } from '../users.service';
 export class AdminComponent {
   public isAdmin: boolean = false;
   public restaurants: any[] = [];
+  public vehicles: any[] = [];
   public users: any[] = [];
   public newUser: any = { username: '', code: '' };
   public newRestaurant: any = { name: '' };
+  public newVehicule: any = { name: '' };
   public modalOn: boolean = false;
   public addingUser: boolean = false;
+  public addingVehicle: boolean = false;
   public addingRestaurant: boolean = false;
   public removingUser: boolean = false;
   public userToDelete: any = undefined;
   public removingRestaurant: boolean = false;
   public restaurantToDelete: any = undefined;
+  public removingVehicle: boolean = false;
+  public vehicleToDelete: any = undefined;
+
   startDate: string = '';
   endDate: string = '';
 
@@ -31,6 +37,9 @@ export class AdminComponent {
   ngOnInit(): void {
     this.restaurants = [];
     this.users = [];
+    this.userService.getAllVehicles().subscribe((res) => {
+      this.vehicles = res.vehicles;
+    });
     this.userService.getAllRestaurants().subscribe((res) => {
       this.restaurants = res.restaurants;
     });
@@ -60,16 +69,22 @@ export class AdminComponent {
     this.modalOn = true;
     this.addingUser = true;
   }
+  public addVehicle() {
+    this.modalOn = true;
+    this.addingVehicle = true;
+  }
   public addRestaurant() {
     this.modalOn = true;
     this.addingRestaurant = true;
   }
   public closeModal() {
     this.modalOn = false;
+    this.addingVehicle = false;
     this.addingUser = false;
     this.addingRestaurant = false;
     this.newUser = { username: '', code: '' };
     this.newRestaurant = { name: '' };
+    this.newVehicule = { name: '' };
   }
   public submitUserCreation() {
     this.userService.createNewUser(this.newUser).subscribe({
@@ -103,7 +118,16 @@ export class AdminComponent {
     this.userService.createNewRestaurant(this.newRestaurant).subscribe({
       next: (val) => {
         this.notifService.showNotification('success', 'Restaurant ajouté avec succès');
-        this.cancelDeleteUser();
+        this.closeModal();
+        this.ngOnInit();
+      }
+    })
+  }
+  public submitVehicleCreation() {
+    this.userService.createNewVehicle(this.newVehicule).subscribe({
+      next: (val) => {
+        this.notifService.showNotification('success', 'Vehicule ajouté avec succès');
+        this.closeModal();
         this.ngOnInit();
       }
     })
@@ -126,6 +150,25 @@ export class AdminComponent {
     this.modalOn = false;
     this.restaurantToDelete = undefined;
     this.removingRestaurant = false;
+  }
+  public deleteVehicle(vehicle: any) {
+    this.modalOn = true;
+    this.vehicleToDelete = vehicle;
+    this.removingVehicle = true;
+  }
+  public submitDeleteVehicle() {
+    this.userService.deleteVehicleById(this.vehicleToDelete.id).subscribe({
+      next: (val) => {
+        this.notifService.showNotification('success', 'Vehicule supprimé avec succès');
+        this.cancelDeleteVehicle();
+        this.ngOnInit();
+      }
+    })
+  }
+  public cancelDeleteVehicle() {
+    this.modalOn = false;
+    this.vehicleToDelete = undefined;
+    this.removingVehicle = false;
   }
   public checkAdminCode(event: any) {
     if (event == "3087") {

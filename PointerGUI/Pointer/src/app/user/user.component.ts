@@ -16,6 +16,7 @@ export class UserComponent {
   public reportData: any;
   public restaurants: any[] = [];
   public users: any[] = [];
+  public vehicles: any[] = [];
   constructor(
     private notifService: NotificationService,
     private userService: HttpServiceCustom
@@ -24,6 +25,9 @@ export class UserComponent {
   ngOnInit(): void {
     this.userService.getAllRestaurants().subscribe((res) => {
       this.restaurants = res.restaurants;
+    });
+    this.userService.getAllVehicles().subscribe((res) => {
+      this.vehicles = res.vehicles;
     });
   }
   public goBackToPrevStep() {
@@ -73,12 +77,14 @@ export class UserComponent {
         this.reportData = {
           restaurant: this.selectedRestaurant,
           user: this.selectedUser,
+          vehicles: this.vehicles,
+          docId: val.id,
           actionDone: this.selectedAction.checkkingIn ? 'Pointage' : 'Depointage',
           currentTime: new Date(),
         };
         this.userStep += 1;
         setTimeout(() => {
-          this.onReportEvent()
+          //this.onReportEvent()
         }, 5000);
       },
       error: (error) => {
