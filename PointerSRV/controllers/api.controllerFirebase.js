@@ -185,11 +185,16 @@ exports.selectedVehicle = async (req, res) => {
 
 exports.submit = async (req, res) => {
   try {
+    const docRef = usersRef.doc(req.body.user.id);
+    const user = (await docRef.get()).data();
+    if (user.code != req.body.user.code) {
+      res.status(201).json({ title: "error", body: "wrong code"});
+      return;
+    }
     const updateData = {
       pointed: req.body.actionDone == "Pointage" ? true : false,
       pointedRestaurant: req.body.restaurant.id,
     };
-    const docRef = usersRef.doc(req.body.user.id);
     await docRef.update(updateData);
     console.log("User with ID:", req.body.user.id, "updated successfully.");
   } catch (error) {
@@ -226,6 +231,9 @@ exports.getAllFromTo = async (req, res) => {
   try {
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
+    endDate.setHours(endDate.getHours() + 23);
+    endDate.setMinutes(endDate.getMinutes() + 59);
+    endDate.setSeconds(endDate.getSeconds() + 59);
 
     const snapshot = await userPointingRef
       .where("created_at", ">=", startDate)
@@ -344,6 +352,8 @@ exports.getAllFromTo = async (req, res) => {
           .status(201)
           .json({ title: "error", body: "Error writing CSV file" });
       }
+    }else{
+      res.status(201).json({ title: "error", body: "No data to send." });
     }
   } catch (error) {
     console.error("Error getting documents:", error);
@@ -531,8 +541,8 @@ function sendMail(fromToDetails) {
 
   const mailOptions = {
     from: "PointerTracker",
-    to: 'ghassen.hentati@hotmail.com',
-    cc: 'affesachraf70@gmail.com',
+    //cc: 'ghassen.hentati@hotmail.com',
+    to: 'affesachraf70@gmail.com',
     subject: reportName,
     text: "Please find the attached CSV file.",
     attachments: [

@@ -83,9 +83,11 @@ export class UserComponent {
           currentTime: new Date(),
         };
         this.userStep += 1;
-        setTimeout(() => {
-          //this.onReportEvent()
-        }, 5000);
+        setTimeout((val:any) => {
+          if (val == 'Pointage') {
+            this.onReportEvent()
+          }
+        }, 5000, this.selectedAction.checkkingIn ? 'Pointage' : 'Depointage');
       },
       error: (error) => {
         console.log(error);
